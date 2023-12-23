@@ -68,7 +68,7 @@ const galleryList = document.querySelector(".gallery");
 const marcup = [];
 
 images.map(({ preview, original, description }) => {
-    const img = `<li class="gallery-item">
+  const img = `<li class="gallery-item">
   <a class="gallery-link" href="${original}">
         <img class="gallery-image"
       src="${preview}"
@@ -76,10 +76,34 @@ images.map(({ preview, original, description }) => {
       alt="${description}"/>
         </a>
         </li>`;
-    marcup.push(img);
+  marcup.push(img);
 });
 
 galleryList.insertAdjacentHTML("beforeend", marcup.join(""));
-console.log(galleryList.innerHTML);
-// console.log(marcup);
 
+galleryList.addEventListener("click", handleImg);
+
+function handleImg(event) {
+  event.preventDefault();
+  if (event.target === event.currentTarget) {
+    return;
+  }
+  const original = event.target.dataset.source;
+  const description = event.target.dataset.description;
+
+  const instance = basicLightbox.create(
+    `<div class="gallery-div">
+  <a class="gallery-link" href="${original}">
+        <img class="gallery-image"
+      src="${original}"
+      alt="${description}"/>
+        </a>
+        </div>`
+  );
+  // {
+  //   onClose: () => {
+  //     document.addEventListener("keydown", onModalClose);
+  //   };
+  // }
+  instance.show();
+}
