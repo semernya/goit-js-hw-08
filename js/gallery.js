@@ -93,17 +93,28 @@ function handleImg(event) {
 
   const instance = basicLightbox.create(
     `<div class="gallery-div">
-  <a class="gallery-link" href="${original}">
         <img class="gallery-image"
       src="${original}"
       alt="${description}"/>
-        </a>
         </div>`
   );
-  // {
-  //   onClose: () => {
-  //     document.addEventListener("keydown", onModalClose);
-  //   };
-  // }
+
+  function closeModal(event) {
+    if (event.code === "Escape") {
+      instance.close();
+      console.log("click esc");
+    }
+  }
+
+  {
+    onShow: () => {
+      document.addEventListener("keydown", closeModal);
+    };
+
+    onClose: () => {
+      document.removeEventListener("keydown", closeModal);
+    };
+  }
+
   instance.show();
 }
