@@ -65,22 +65,20 @@ const images = [
 ];
 
 const galleryList = document.querySelector(".gallery");
-const marcup = [];
 
-images.map(({ preview, original, description }) => {
-  const img = `<li class="gallery-item">
+const marcup = images.map(
+  ({ preview, original, description }) =>
+    `<li class="gallery-item">
   <a class="gallery-link" href="${original}">
         <img class="gallery-image"
       src="${preview}"
       data-source="${original}"
       alt="${description}"/>
         </a>
-        </li>`;
-  marcup.push(img);
-});
+        </li>`
+);
 
 galleryList.insertAdjacentHTML("beforeend", marcup.join(""));
-
 galleryList.addEventListener("click", handleImg);
 
 function handleImg(event) {
@@ -96,25 +94,23 @@ function handleImg(event) {
         <img class="gallery-image"
       src="${original}"
       alt="${description}"/>
-        </div>`
+        </div>`,
+
+    {
+      onShow: () => {
+        document.addEventListener("keydown", closeModal);
+      },
+      onClose: () => {
+        document.removeEventListener("keydown", closeModal);
+      },
+    }
   );
+
+  instance.show();
 
   function closeModal(event) {
     if (event.code === "Escape") {
       instance.close();
-      console.log("click esc");
     }
   }
-
-  {
-    onShow: () => {
-      document.addEventListener("keydown", closeModal);
-    };
-
-    onClose: () => {
-      document.removeEventListener("keydown", closeModal);
-    };
-  }
-
-  instance.show();
 }
